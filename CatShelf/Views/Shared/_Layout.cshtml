@@ -1,0 +1,62 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Amatista la Rescatista</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/body.css" />
+    <link rel="stylesheet" href="~/css/heading.css" />
+    <link rel="stylesheet" href="~/css/styles.css" />
+
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg bg-secondary fixed-top">
+            <div class="container">
+                <a class="navbar-brand js-scroll-trigger" asp-area="" asp-controller="Home" asp-action="Index">AMATISTA</a>
+                <button class="navbar-toggler navbar-toggler-right font-weight-bold bg-primary text-white rounded" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item mx-0 mx-lg-1">
+                            <a class="nav-link py-3 px-0 px-lg-3 rounded" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                        </li>
+                        <li class="nav-item mx-0 mx-lg-1">
+                            <a class="nav-link py-3 px-0 px-lg-3 rounded" asp-area="" asp-controller="Home" asp-action="AllCats">Rescataditos</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    @RenderBody()
+
+    <footer class="footer text-center">
+        <div class="container">
+            <div class="row">
+                <h4 class="mb-4">SOBRE AMATISTA</h4>
+                <p class="pre-wrap lead mb-0">Este es un proyecto de prueba creado para hacer una introducción al Unit Testing - Made with 💗&🧉 by Macarena Haspert</p>
+            </div>
+        </div>
+    </footer>
+    <section class="copyright py-4 text-center text-white">
+        <div class="container">
+            <small class="pre-wrap">Freelancer template by <a href="https://www.facebook.com/StartBootstrap">Start Bootstrap</a></small>
+            <small class="pre-wrap">Icons by <a href="https://www.freepik.com/">stockgiu @@ Freepik.com</a></small>
+        </div>
+    </section>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Third party plugin JS-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
+    <script src="https://kit.fontawesome.com/f9a53c1a9e.js" crossorigin="anonymous"></script>
+
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/scripts.js" asp-append-version="true"></script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

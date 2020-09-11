@@ -1,0 +1,120 @@
+﻿@model CatShelf.Web.Models.ShelfViewModel
+@{
+    ViewData["Title"] = "Rescataditos";
+}
+
+
+<section class="page-section portfolio" id="portfolio">
+    <div class="container d-flex align-items-center flex-column">
+        <!-- Portfolio Section Heading-->
+        <div class="text-center">
+            <h2 class="page-section-heading text-secondary mb-0 d-inline-block">RESCATADITOS</h2>
+        </div>
+        <!-- Icon Divider-->
+        <div class="divider-custom">
+            <div class="divider-custom-line"></div>
+            <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
+            <div class="divider-custom-line"></div>
+        </div>
+        <div class="row justify-content-center">
+            @foreach (var cat in Model.Cats)
+            {
+                string modalId = $"#portfolioModal{cat.Id}";
+                string imageRoute = "~/images/cat{0}.png";
+                switch (cat.Avatar)
+                {
+                    case CatShelf.Services.Models.CatAvatarEnum.Box:
+                        imageRoute = string.Format(imageRoute, "01");
+                        break;
+                    case CatShelf.Services.Models.CatAvatarEnum.Carey:
+                        imageRoute = string.Format(imageRoute, "03");
+                        break;
+                    case CatShelf.Services.Models.CatAvatarEnum.White:
+                        imageRoute = string.Format(imageRoute, "02");
+                        break;
+                    case CatShelf.Services.Models.CatAvatarEnum.Grey:
+                        imageRoute = string.Format(imageRoute, "04");
+                        break;
+                }
+                <div class="col-md-6 col-lg-4 mb-5">
+                    <div class="portfolio-item mx-auto" data-toggle="modal" data-target="@modalId">
+                        <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
+                            <div class="portfolio-item-caption-content text-center text-white"><i class="fas fa-plus fa-3x"></i></div>
+                        </div>
+                        <img class="img-fluid rounded mb-5" src="@Url.Content(imageRoute)" alt="@cat.Name" />
+                    </div>
+                </div>
+            }
+
+        </div>
+
+        <ul class="nav nav-pills">
+            @if (Model.OnlyAdoptable)
+            {
+                <li class="nav-item">
+                    <a asp-controller="Home" asp-action="AllCats" class="nav-link">Ver todxs</a>
+                </li>
+            }
+            else
+            {
+                <li class="nav-item">
+                    <a asp-controller="Home" asp-action="AdoptableCats" class="nav-link">Ver solo para Adoptar</a>
+                </li>
+            }
+        </ul>
+    </div>
+</section>
+@foreach (var cat in Model.Cats)
+{
+    string modalId = $"portfolioModal{cat.Id}";
+    string labelId = $"portfolioModalLabel{cat.Id}";
+    string imageRoute = "~/images/cat{0}.png";
+    switch (cat.Avatar)
+    {
+        case CatShelf.Services.Models.CatAvatarEnum.Box:
+            imageRoute = string.Format(imageRoute, "01");
+            break;
+        case CatShelf.Services.Models.CatAvatarEnum.Carey:
+            imageRoute = string.Format(imageRoute, "03");
+            break;
+        case CatShelf.Services.Models.CatAvatarEnum.White:
+            imageRoute = string.Format(imageRoute, "02");
+            break;
+        case CatShelf.Services.Models.CatAvatarEnum.Grey:
+            imageRoute = string.Format(imageRoute, "04");
+            break;
+    }
+
+    <!-- Portfolio Modal-->
+    <div class="portfolio-modal modal fade" id="@modalId" tabindex="-1" role="dialog" aria-labelledby="@labelId" aria-hidden="true">
+        <div class="modal-dialog modal-xl" role="document">
+            <div class="modal-content">
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><i class="fas fa-times"></i></span></button>
+                <div class="modal-body text-center">
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <div class="col-lg-8">
+                                <!-- Portfolio Modal - Title-->
+                                <h2 class="portfolio-modal-title text-secondary mb-0">@cat.Name</h2>
+                                <!-- Icon Divider-->
+                                <div class="divider-custom">
+                                    <div class="divider-custom-line"></div>
+                                    <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
+                                    <div class="divider-custom-line"></div>
+                                </div>
+                                <!-- Portfolio Modal - Image--><img class="img-fluid rounded mb-5" src="@Url.Content(imageRoute)" alt="@cat.Name" />
+                                <!-- Portfolio Modal - Text-->
+                                <p class="mb-5">Cumpleaños: @cat.Birthday.ToString("dd/MM/yyyy")</p>
+                                @if (cat.CanBeAdopted)
+                                {
+                                    <p class="mb-5">¡Me podés adoptar! ❤</p>
+                                }
+                                <button class="btn btn-primary" href="#" data-dismiss="modal"><i class="fas fa-times fa-fw"></i>Cerrar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
