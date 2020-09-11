@@ -2,20 +2,23 @@
 using System.Collections.Generic;
 using System.Linq;
 using CatShelf.Data.Models;
+using CatShelf.Data.Providers;
 using CatShelf.Data.Repositories.Interfaces;
 using CatShelf.Services.Interfaces;
 using CatShelf.Services.Models;
+using CatShelf.Services.Utils;
 
 namespace CatShelf.Services.Implementation
 {
     public class CatService : ICatService
     {
         private readonly ICatRepository repository;
-        private const int ADOPTION_THRESHOLD_DAYS = 45;
+        private readonly IDateProvider dateProvider;
 
-        public CatService(ICatRepository repository)
+        public CatService(ICatRepository repository, IDateProvider dateProvider)
         {
             this.repository = repository;
+            this.dateProvider = dateProvider;
         }
 
         public void AddCat(Cat cat)
@@ -25,35 +28,22 @@ namespace CatShelf.Services.Implementation
 
         public IEnumerable<CatDto> GetAllCats()
         {
-            return repository.GetAllCats().Select(CatDtoFromDataModel);
+            return repository.GetAllCats().Select(cat => Mapper.CatDtoFromDataModel(cat, Constants.CatService.ADOPTION_TRESHOLD_DAYS, dateProvider));
         }
 
         public IEnumerable<CatDto> GetAdoptableCats()
         {
-            return repository.GetAllCats().Select(CatDtoFromDataModel).Where(cat => cat.CanBeAdopted);
+            return repository.GetAllCats().Select(cat => Mapper.CatDtoFromDataModel(cat, Constants.CatService.ADOPTION_TRESHOLD_DAYS, dateProvider)).Where(cat => cat.CanBeAdopted);
         }
 
         public CatDto GetCatById(int id)
         {
-            return CatDtoFromDataModel(repository.GetCatById(id));
+            return Mapper.CatDtoFromDataModel(repository.GetCatById(id), Constants.CatService.ADOPTION_TRESHOLD_DAYS, dateProvider);
         }
 
         public void UpdateCat(Cat cat)
         {
             repository.UpdateCat(cat);
-        }
-
-        private CatDto CatDtoFromDataModel(Cat dataModel)
-        {
-            DateTime readyToAdoptDate = DateTime.Now.AddDays(-ADOPTION_THRESHOLD_DAYS);
-            return new CatDto
-            {
-                Id = dataModel.Id,
-                Name = dataModel.Name,
-                Birthday = dataModel.Birthday,
-                CanBeAdopted = dataModel.Birthday.Date >= readyToAdoptDate,
-                Avatar = (CatAvatarEnum)dataModel.AvatarId
-            };
         }
     }
 }
